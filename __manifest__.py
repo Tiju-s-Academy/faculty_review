@@ -25,8 +25,10 @@
     ],
     'assets': {
         'web.assets_frontend': [
-            'faculty_review/static/src/css/rating.css',
-            'faculty_review/static/src/js/rating.js',
+            '/faculty_review/static/src/css/rating.css',
+        ],
+        'web.assets_frontend_lazy': [
+            '/faculty_review/static/src/js/rating.js',
         ],
     },
     'installable': True,
