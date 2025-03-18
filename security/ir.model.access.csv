@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_teacher_rating_user,teacher.rating.user,model_teacher_rating,group_teacher_rating_user,1,1,1,1
+access_teacher_rating_admin,teacher.rating.admin,model_teacher_rating,group_teacher_rating_admin,1,1,1,1
+access_teacher_rating_public,teacher.rating.public,model_teacher_rating,base.group_public,1,1,1,0
+access_hr_department_user,hr.department.user,hr.model_hr_department,group_teacher_rating_user,1,1,1,1
+access_hr_department_public,hr.department.public,hr.model_hr_department,base.group_public,1,0,0,0
+access_hr_employee_user,hr.employee.user,hr.model_hr_employee,group_teacher_rating_user,1,1,1,1
+access_hr_employee_public,hr.employee.public,hr.model_hr_employee,base.group_public,1,0,0,0

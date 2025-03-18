@@ -1,0 +1,25 @@
+teacher_rating
+├── __init__.py
+├── __manifest__.py
+├── models
+│   ├── __init__.py
+│   ├── hr_department.py
+│   ├── hr_employee.py
+│   └── teacher_rating.py
+├── security
+│   ├── ir.model.access.csv
+│   └── teacher_rating_security.xml
+├── views
+│   ├── hr_department_views.xml
+│   ├── hr_employee_views.xml
+│   ├── teacher_rating_views.xml
+│   └── teacher_rating_templates.xml
+├── data
+│   └── teacher_rating_data.xml
+├── controllers
+│   ├── __init__.py
+│   └── main.py
+├── static
+│   └── description
+│       └── icon.png
+└── README.md

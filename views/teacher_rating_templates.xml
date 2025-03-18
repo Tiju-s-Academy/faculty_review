@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="faculty_review.teacher_rating_form" name="Teacher Rating Form">
+        <t t-call="website.layout">
+            <div class="rating-container">
+                <div class="container">
+                    <div class="card shadow h-100"> <!-- Added h-100 -->
+                        <div class="card-body">
+                            <h1 class="card-title text-center mb-4">Rate Your Teacher</h1>
+                            <form action="/teacher_rating/submit" method="post" class="form-horizontal">
+                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                
+                                <div class="form-group mb-4">
+                                    <label class="form-label" for="teacher_id">Teacher</label>
+                                    <select name="teacher_id" class="form-select" required="1">
+                                        <option value="">Select Teacher...</option>
+                                        <t t-foreach="teachers" t-as="teacher">
+                                            <option t-att-value="teacher.id"><t t-esc="teacher.name"/></option>
+                                        </t>
+                                    </select>
+                                </div>
+
+                                <div class="row g-3 mb-4">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label" for="course">Course</label>
+                                            <input type="text" name="course" class="form-control" required="1"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label" for="batch">Batch</label>
+                                            <input type="text" name="batch" class="form-control" required="1"/>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="rating-group">
+                                    <h4 class="mb-4">Ratings</h4>
+                                    <div class="row g-3">
+                                        <t t-foreach="[
+                                            ('listening', 'Listening Skills'),
+                                            ('speaking', 'Speaking Skills'),
+                                            ('reading', 'Reading Skills'),
+                                            ('writing', 'Writing Skills'),
+                                            ('orientation', 'Orientation'),
+                                            ('mock_test', 'Mock Test')
+                                        ]" t-as="rating">
+                                            <div class="col-md-6 mb-3">
+                                                <div class="rating-label"><t t-esc="rating[1]"/></div>
+                                                <div class="rating-stars" t-att-data-rating-type="rating[0]">
+                                                    <input type="hidden" t-att-name="rating[0] + '_rating'" value="0"/>
+                                                    <t t-foreach="range(5, 0, -1)" t-as="star">
+                                                        <input type="radio" 
+                                                               t-att-id="rating[0] + '_' + str(star)" 
+                                                               t-att-name="rating[0] + '_stars'"
+                                                               t-att-value="star"
+                                                               class="rating-input"/>
+                                                        <label t-att-for="rating[0] + '_' + str(star)"></label>
+                                                    </t>
+                                                </div>
+                                            </div>
+                                        </t>
+                                    </div>
+                                </div>
+
+                                <div class="feedback-section">
+                                    <div class="form-group mb-3">
+                                        <label class="form-label" for="orientation_feedback">Orientation Feedback</label>
+                                        <textarea name="orientation_feedback" class="form-control" rows="3"/>
+                                    </div>
+
+                                    <div class="form-group mb-4">
+                                        <label class="form-label" for="mock_test_feedback">Mock Test Feedback</label>
+                                        <textarea name="mock_test_feedback" class="form-control" rows="3"/>
+                                    </div>
+                                </div>
+
+                                <div class="text-center mt-4">
+                                    <button type="submit" class="btn btn-primary btn-lg px-5">Submit Rating</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="faculty_review.thank_you_template" name="Rating Submitted">
+        <t t-call="website.layout">
+            <div class="container text-center">
+                <h1>Thank You!</h1>
+                <p>Your rating has been submitted successfully.</p>
+                <a href="/teacher_rating/form" class="btn btn-primary">Submit Another Rating</a>
+            </div>
+        </t>
+    </template>
+</odoo>
