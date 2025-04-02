@@ -264,3 +264,45 @@
     height: auto;
     min-height: 100%;
 }
+
+.module-rating {
+    background: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    height: auto;
+    overflow: visible;
+}
+
+.module-rating select {
+    margin-bottom: 1rem;
+}
+
+.module-rating .rating-stars {
+    margin-top: 0.5rem;
+}
+
+.container.py-5 {
+    max-height: calc(100vh - 100px);
+    overflow-y: auto;
+    padding: 20px;
+    -webkit-overflow-scrolling: touch;
+}
+
+.container.py-5::-webkit-scrollbar {
+    width: 8px;
+}
+
+.container.py-5::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.container.py-5::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+.container.py-5 .card.shadow {
+    margin-bottom: 2rem;
+}

@@ -3,36 +3,11 @@
     <template id="teacher_rating_form" name="Teacher Rating Form">
         <t t-call="website.layout">
             <div class="container py-5">
-                <div class="teacher-selection-section">
-                    <h1 class="text-center mb-4">Select Teachers to Rate</h1>
-                    
-                    <div class="teacher-grid mb-4">
-                        <t t-foreach="teachers" t-as="teacher">
-                            <div class="teacher-card" t-att-data-teacher-id="teacher.id">
-                                <img t-if="teacher.avatar_128" 
-                                     t-att-src="image_data_uri(teacher.avatar_128)" 
-                                     class="teacher-image" 
-                                     t-att-alt="teacher.name"/>
-                                <img t-else="1" src="/web/static/img/placeholder.png" class="teacher-image" t-att-alt="teacher.name"/>
-                                <h5 class="teacher-name"><t t-esc="teacher.name"/></h5>
-                                <p class="department-name text-muted"><t t-esc="teacher.department_id.name"/></p>
-                            </div>
-                        </t>
-                    </div>
-
-                    <div class="action-buttons text-center" style="display: none;">
-                        <button class="btn btn-primary me-2 start-rating-btn">Rate Selected Teachers</button>
-                        <button class="btn btn-outline-primary rate-institute-btn">Rate Institute</button>
-                    </div>
-                </div>
-
-                <!-- Rating Form Section -->
-                <div class="rating-form card shadow mt-5" style="display: none;">
+                <div class="card shadow">
                     <div class="card-body">
-                        <h3 class="card-title text-center mb-4">Rating for: <span class="teacher-name-display"></span></h3>
+                        <h1 class="text-center mb-4">Rate Your Teachers</h1>
                         <form action="/teacher_rating/submit" method="post" class="form-horizontal">
                             <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
-                            <input type="hidden" name="teacher_id" id="teacher_id"/>
                             
                             <!-- Course and Batch -->
                             <div class="row mb-4">
@@ -50,27 +25,35 @@
                                 </div>
                             </div>
 
-                            <!-- Rating Categories -->
+                            <!-- Module Teachers Selection -->
                             <div class="rating-categories">
-                                <h4 class="mb-3">Rate the following aspects:</h4>
+                                <h4 class="mb-4">Select Teachers for Each Module</h4>
                                 <div class="row">
                                     <t t-foreach="[
                                         ('listening', 'Listening Skills'),
                                         ('speaking', 'Speaking Skills'),
                                         ('reading', 'Reading Skills'),
                                         ('writing', 'Writing Skills')
-                                    ]" t-as="rating">
+                                    ]" t-as="module">
                                         <div class="col-md-6 mb-4">
-                                            <div class="rating-item">
-                                                <label class="form-label"><t t-esc="rating[1]"/></label>
-                                                <div class="rating-stars">
-                                                    <input type="hidden" t-att-name="rating[0] + '_rating'" t-att-id="rating[0] + '_rating'" value="0"/>
+                                            <div class="module-rating">
+                                                <label class="form-label"><t t-esc="module[1]"/></label>
+                                                <select t-att-name="module[0] + '_teacher'" class="form-select" required="1">
+                                                    <option value="">Select Teacher...</option>
+                                                    <t t-foreach="teachers" t-as="teacher">
+                                                        <option t-att-value="teacher.id">
+                                                            <t t-esc="teacher.name"/>
+                                                        </option>
+                                                    </t>
+                                                </select>
+                                                <div class="rating-stars mt-2">
+                                                    <input type="hidden" t-att-name="module[0] + '_rating'" value="0"/>
                                                     <t t-foreach="range(5, 0, -1)" t-as="star">
                                                         <input type="radio" 
-                                                            t-att-id="rating[0] + '_star_' + str(star)" 
-                                                            t-att-name="rating[0] + '_stars'"
+                                                            t-att-id="module[0] + '_star_' + str(star)" 
+                                                            t-att-name="module[0] + '_stars'"
                                                             t-att-value="star"/>
-                                                        <label t-att-for="rating[0] + '_star_' + str(star)"></label>
+                                                        <label t-att-for="module[0] + '_star_' + str(star)"></label>
                                                     </t>
                                                 </div>
                                             </div>
@@ -80,14 +63,10 @@
                             </div>
 
                             <div class="text-center mt-4">
-                                <button type="submit" class="btn btn-primary btn-lg px-5">Submit Rating</button>
+                                <button type="submit" class="btn btn-primary btn-lg px-5">Submit Ratings</button>
                             </div>
                         </form>
                     </div>
-                </div>
-
-                <div class="institute-rating-form" style="display: none;">
-                    <!-- ... existing institute form code ... -->
                 </div>
             </div>
         </t>

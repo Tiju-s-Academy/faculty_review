@@ -12,18 +12,22 @@ class TeacherRatingController(http.Controller):
     @http.route('/teacher_rating/submit', type='http', auth='public', methods=['POST'], csrf=False)
     def submit_rating(self, **kwargs):
         try:
-            vals = {
-                'teacher_id': int(kwargs.get('teacher_id')),
-                'course': kwargs.get('course'),
-                'batch': kwargs.get('batch'),
-                'listening_rating': float(kwargs.get('listening_rating', 0.0)),
-                'speaking_rating': float(kwargs.get('speaking_rating', 0.0)),
-                'reading_rating': float(kwargs.get('reading_rating', 0.0)),
-                'writing_rating': float(kwargs.get('writing_rating', 0.0)),
-                'state': 'draft'
-            }
-            rating = request.env['teacher.rating'].sudo().create(vals)
-            request.session['last_teacher_rating_id'] = rating.id
+            modules = ['listening', 'speaking', 'reading', 'writing']
+            course = kwargs.get('course')
+            batch = kwargs.get('batch')
+            
+            for module in modules:
+                teacher_id = kwargs.get(f'{module}_teacher')
+                if teacher_id:
+                    vals = {
+                        'teacher_id': int(teacher_id),
+                        'course': course,
+                        'batch': batch,
+                        f'{module}_rating': float(kwargs.get(f'{module}_rating', 0.0)),
+                        'state': 'draft'
+                    }
+                    request.env['teacher.rating'].sudo().create(vals)
+            
             return request.redirect('/institute_rating/form')
         except Exception as e:
             return json.dumps({'success': False, 'error': str(e)})
