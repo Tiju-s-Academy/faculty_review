@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+     <menuitem id="menu_teacher_rating_root" name="Teacher Rating" sequence="90"/>
+    <menuitem id="menu_teacher_rating" name="Ratings" parent="menu_teacher_rating_root" action="action_student_feedback"/>
+</odoo>

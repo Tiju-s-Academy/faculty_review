@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="student_feedback_tree_view" model="ir.ui.view">
+        <field name="name">student.feedback.tree.view</field>
+        <field name="model">student.feedback</field>
+        <field name="arch" type="xml">
+            <tree string="Student FeedBack">
+                <field name="name"/>
+                <field name="course"/>
+                <field name="batch"/>
+            </tree>
+        </field>
+    </record>
+    <record id="student_feedback_form_view" model="ir.ui.view">
+        <field name="name">student.feedback.form.view</field>
+        <field name="model">student.feedback</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="course"/>
+                            <field name="batch"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Teacher Feedback">
+                            <field name="teacher_rating_ids">
+                                <tree editable="bottom">
+                                    <field name="teacher_id"/>
+                                    <field name="teacher_rating"/>
+                                    <field name="teacher_feedback"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Institution Feedback">
+                            <group>
+                                <group>
+                                    <field name="orientation_rating"/>
+                                    <field name="mock_test_rating"/>
+                                </group>
+                                <group>
+                                    <field name="orientation_feedback"/>
+                                    <field name="mock_test_feedback"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Allocation Feedback">
+                            <field name="allocation_rating_ids">
+                                <tree editable="bottom">
+                                    <field name="allocation_teacher_id"/>
+                                    <field name="teacher_rating"/>
+                                    <field name="teacher_feedback"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Floor Cleanliness Feedback">
+                            <group>
+                                <group>
+                                    <field name="first_floor_rating"/>
+                                    <field name="second_floor_rating"/>
+                                    <field name="third_floor_rating"/>
+                                    <field name="fourth_floor_rating"/>
+                                </group>
+                                <group>
+                                    <field name="first_floor_feedback"/>
+                                    <field name="second_floor_feedback"/>
+                                    <field name="third_floor_feedback"/>
+                                    <field name="forth_floor_feedback"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_student_feedback" model="ir.actions.act_window">
+        <field name="name">Student FeedBack</field>
+        <field name="res_model">student.feedback</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

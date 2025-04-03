@@ -26,6 +26,7 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='department_id']" position="after">
                 <field name="academic_department"/>
+                <field name="course_ids" widget="many2many_tags" invisible="not academic_department"/>
             </xpath>
         </field>
     </record>

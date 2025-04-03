@@ -6,3 +6,14 @@ access_hr_department_user,hr.department.user,hr.model_hr_department,group_teache
 access_hr_department_public,hr.department.public,hr.model_hr_department,base.group_public,1,0,0,0
 access_hr_employee_user,hr.employee.user,hr.model_hr_employee,group_teacher_rating_user,1,1,1,1
 access_hr_employee_public,hr.employee.public,hr.model_hr_employee,base.group_public,1,0,0,0
+
+access_student_feedback_user,student.feedback.user,model_student_feedback,group_teacher_rating_user,1,1,1,1
+access_student_feedback_admin,student.feedback.admin,model_student_feedback,group_teacher_rating_admin,1,1,1,1
+access_student_feedback_public,student.feedback.public,model_student_feedback,base.group_public,1,1,1,0
+
+access_allocation_rating_user,allocation.rating.user,model_allocation_rating,group_teacher_rating_user,1,1,1,1
+access_allocation_rating_admin,allocation.rating.admin,model_allocation_rating,group_teacher_rating_admin,1,1,1,1
+access_allocation_rating_public,allocation.rating.public,model_allocation_rating,base.group_public,1,1,1,0
+
+access_student_course_admin,student.course.admin,model_student_course,hr.group_hr_manager,1,1,1,1
+access_student_course_manager,student.course.manger,model_student_course,hr.group_hr_user,1,1,1,1

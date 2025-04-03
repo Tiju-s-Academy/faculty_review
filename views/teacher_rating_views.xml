@@ -5,42 +5,13 @@
         <field name="model">teacher.rating</field>
         <field name="arch" type="xml">
             <form>
-                <header>
-                    <field name="state" widget="statusbar"/>
-                </header>
                 <sheet>
-                    <div class="oe_title">
-                        <h1><field name="name" readonly="1"/></h1>
-                    </div>
                     <group>
-                        <group>
-                            <field name="teacher_id"/>
-                            <field name="course"/>
-                            <field name="batch"/>
-                        </group>
-                        <group>
-                            <field name="listening_rating"/>
-                            <field name="speaking_rating"/>
-                            <field name="reading_rating"/>
-                            <field name="writing_rating"/>
-                            <field name="orientation_rating"/>
-                            <field name="mock_test_rating"/>
-                            <field name="overall_rating"/>
-                        </group>
+                        <field name="teacher_id"/>
+                        <field name="teacher_rating" widget="priority"/>
+                        <field name="teacher_feedback"/>
                     </group>
-                    <notebook>
-                        <page string="Feedback">
-                            <group>
-                                <field name="orientation_feedback"/>
-                                <field name="mock_test_feedback"/>
-                            </group>
-                        </page>
-                    </notebook>
                 </sheet>
-                <div class="oe_chatter">
-                    <field name="message_follower_ids"/>
-                    <field name="message_ids"/>
-                </div>
             </form>
         </field>
     </record>
@@ -50,35 +21,30 @@
         <field name="model">teacher.rating</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="name"/>
                 <field name="teacher_id"/>
-                <field name="course"/>
-                <field name="batch"/>
-                <field name="overall_rating"/>
-                <field name="state"/>
+                <field name="teacher_rating" widget="priority"/>
+                <field name="teacher_feedback"/>
             </tree>
         </field>
     </record>
 
-    <record id="view_teacher_rating_search" model="ir.ui.view">
-        <field name="name">teacher.rating.search</field>
-        <field name="model">teacher.rating</field>
-        <field name="arch" type="xml">
-            <search>
-                <field name="name"/>
-                <field name="teacher_id"/>
-                <field name="course"/>
-                <field name="batch"/>
-                <filter string="Draft" name="draft" domain="[('state','=','draft')]"/>
-                <filter string="Submitted" name="submitted" domain="[('state','=','submitted')]"/>
-                <group expand="0" string="Group By">
-                    <filter string="Teacher" name="teacher" context="{'group_by':'teacher_id'}"/>
-                    <filter string="Course" name="course" context="{'group_by':'course'}"/>
-                    <filter string="Status" name="status" context="{'group_by':'state'}"/>
-                </group>
-            </search>
-        </field>
-    </record>
+<!--    <record id="view_teacher_rating_search" model="ir.ui.view">-->
+<!--        <field name="name">teacher.rating.search</field>-->
+<!--        <field name="model">teacher.rating</field>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <search>-->
+<!--                <field name="name"/>-->
+<!--                <field name="course"/>-->
+<!--                <field name="batch"/>-->
+<!--                <filter string="Draft" name="draft" domain="[('state','=','draft')]"/>-->
+<!--                <filter string="Submitted" name="submitted" domain="[('state','=','submitted')]"/>-->
+<!--                <group expand="0" string="Group By">-->
+<!--                    <filter string="Course" name="course" context="{'group_by':'course'}"/>-->
+<!--                    <filter string="Status" name="status" context="{'group_by':'state'}"/>-->
+<!--                </group>-->
+<!--            </search>-->
+<!--        </field>-->
+<!--    </record>-->
 
     <record id="action_teacher_rating" model="ir.actions.act_window">
         <field name="name">Teacher Ratings</field>
@@ -86,6 +52,5 @@
         <field name="view_mode">tree,form</field>
     </record>
 
-    <menuitem id="menu_teacher_rating_root" name="Teacher Rating" sequence="90"/>
-    <menuitem id="menu_teacher_rating" name="Ratings" parent="menu_teacher_rating_root" action="action_teacher_rating"/>
+
 </odoo>
