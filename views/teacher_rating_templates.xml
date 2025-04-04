@@ -41,6 +41,9 @@
                                             <option t-att-selected="'selected' if default_course == 'PTE' else None"
                                                     value="PTE">PTE
                                             </option>
+                                            <option t-att-selected="'selected' if default_course == 'GERMAN' else None"
+                                                    value="GERMAN">GERMAN
+                                            </option>
                                         </select>
                                     </div>
                                 </div>

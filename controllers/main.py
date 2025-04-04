@@ -7,7 +7,7 @@ class TeacherRatingController(http.Controller):
     @http.route('/teacher_rating/form', type='http', auth='public', website=True)
     def rating_form(self, **kwargs):
         course = kwargs.get('course', '').upper()
-        valid_courses = ['IELTS', 'OET', 'PTE']
+        valid_courses = ['IELTS', 'OET', 'PTE', 'GERMAN']
         if course and course not in valid_courses:
             course = ''
 
@@ -62,7 +62,7 @@ class TeacherRatingController(http.Controller):
 
     @http.route('/allocation_rating/form', type='http', auth='public', website=True)
     def allocation_rating_form(self, **kwargs):
-        allocation_teacher = request.env['hr.employee'].sudo().search([('department_id.name', '=', 'Allocation')])
+        allocation_teacher = request.env['hr.employee'].sudo().search([('name', '=', 'Deepthy Mohandas')])
         return request.render('faculty_review.allocation_rating_form',{'allocation_teacher': allocation_teacher})
 
     @http.route('/allocation_rating/submit', type='http', auth='public', methods=['POST'], csrf=False)
