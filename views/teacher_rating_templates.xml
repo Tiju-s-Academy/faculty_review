@@ -84,7 +84,7 @@
                                                                    t-att-id="'star_' + str(teacher.id) + '_' + str(star)"
                                                                    t-att-name="'stars_' + str(teacher.id)"
                                                                    t-att-value="star"
-                                                            required="1"/>
+                                                                   required="1"/>
                                                             <label t-att-for="'star_' + str(teacher.id) + '_' + str(star)"></label>
                                                         </t>
                                                     </div>
@@ -97,6 +97,69 @@
                                             </div>
                                         </div>
                                     </t>
+                                </div>
+                            </div>
+
+                            <div class="text-center mt-4">
+                                <button type="submit" class="btn btn-primary btn-lg px-5">Next</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="mentor_rating_form" name="Mentor Rating Form">
+        <t t-call="website.layout">
+            <div class="container py-5">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <form action="/mentor_rating/submit" method="post" class="form-horizontal">
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+
+                            <div class="rating-categories">
+                                <h4 class="mb-4">Rate Your Mentor</h4>
+                                <div class="row">
+
+                                    <div class="col-md-12 mb-4 teacher-card position-relative border p-3 rounded shadow-sm">
+                                        <div class="row">
+                                            <!-- Left side: Teacher Name -->
+                                            <div class="col-md-6 d-flex align-items-center">
+                                                <select name="mentor_id" id="mentor_id" class="form-control"
+                                                        required="1">
+                                                    <option value="">Select Your Mentor</option>
+                                                    <t t-foreach="mentors" t-as="mentor">
+                                                        <option t-att-value="mentor.id">
+                                                            <t t-esc="mentor.name"/>
+                                                        </option>
+                                                    </t>
+                                                </select>
+                                            </div>
+
+                                            <!-- Right side: Rating & Feedback in rows -->
+                                            <div class="col-md-6">
+                                                <!-- Rating Stars -->
+                                                <div class="rating-stars mb-2">
+                                                    <input type="hidden" name="mentor_rating" value="0"/>
+                                                    <t t-foreach="range(10, 0, -1)" t-as="star">
+                                                        <input type="radio"
+                                                               t-att-id="'mentor_star_' + str(star)"
+                                                               name="mentor_rating"
+                                                               t-att-value="star"
+                                                               required="1"/>
+                                                        <label t-att-for="'mentor_star_' + str(star)"></label>
+                                                    </t>
+                                                </div>
+
+                                                <!-- Feedback -->
+                                                <textarea name="mentor_feedback"
+                                                      class="form-control feedback-textarea"
+                                                      rows="2"
+                                                      placeholder="Your feedback about the mentor..."></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
@@ -152,7 +215,7 @@
                                                    t-att-id="'orientation_star_' + str(star)"
                                                    name="orientation_rating"
                                                    t-att-value="star"
-                                                    required="1"
+                                                   required="1"
                                             />
                                             <label t-att-for="'orientation_star_' + str(star)"></label>
                                         </t>
@@ -173,7 +236,7 @@
                                                    t-att-id="'mocktest_star_' + str(star)"
                                                    name="mock_test_rating"
                                                    t-att-value="star"
-                                                    required="1"
+                                                   required="1"
                                             />
                                             <label t-att-for="'mocktest_star_' + str(star)"></label>
                                         </t>
@@ -197,15 +260,6 @@
 
     <template id="allocation_rating_form" name="Allocation Rating Form">
         <t t-call="website.layout">
-            <script type="text/javascript">
-                document.addEventListener('DOMContentLoaded', function() {
-                document.querySelectorAll('.remove-teacher').forEach(button => {
-                button.addEventListener('click', function() {
-                this.closest('.teacher-card').remove();
-                });
-                });
-                });
-            </script>
             <div class="container py-5">
                 <div class="card shadow">
                     <div class="card-body">
@@ -240,7 +294,7 @@
                                                                    t-att-id="'star_' + str(teacher.id) + '_' + str(star)"
                                                                    t-att-name="'stars_' + str(teacher.id)"
                                                                    t-att-value="star"
-                                                                    required="1"/>
+                                                                   required="1"/>
                                                             <label t-att-for="'star_' + str(teacher.id) + '_' + str(star)"></label>
                                                         </t>
                                                     </div>
@@ -258,138 +312,12 @@
                             </div>
 
                             <div class="text-center mt-4">
-                                <button type="submit" class="btn btn-primary btn-lg px-5">Next</button>
+                                <button type="submit" class="btn btn-primary btn-lg px-5">Submit All Ratings</button>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
-        </t>
-    </template>
-
-    <template id="floor_rating_form" name="Floor Rating Form">
-        <t t-call="website.layout">
-            <div class="institute-rating-container">
-                <div class="container py-5">
-                    <div class="card shadow">
-                        <div class="card-body">
-                            <h1 class="text-center mb-4">Floor Facilities Rating</h1>
-                            <form action="/floor_rating/submit" method="post" class="form-horizontal">
-                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
-
-                                <!-- 1st Floor Rating -->
-                                <div class="rating-group">
-                                    <h4 class="rating-label">1st Floor Rating</h4>
-                                    <div class="rating-stars mb-2">
-                                        <input type="hidden" name="first_floor_rating" value="0"/>
-                                        <t t-foreach="range(5, 0, -1)" t-as="star">
-                                            <input type="radio"
-                                                   t-att-id="'first_floor_star_' + str(star)"
-                                                   name="first_floor_rating"
-                                                   t-att-value="star"
-                                                    required="1"/>
-                                            <label t-att-for="'first_floor_star_' + str(star)"></label>
-                                        </t>
-                                    </div>
-                                    <div class="feedback-section">
-                                        <textarea name="first_floor_feedback" class="form-control" rows="2"
-                                                  placeholder="Your feedback about 1st floor facilities..."></textarea>
-                                    </div>
-                                </div>
-
-                                <!-- 2nd Floor Rating -->
-                                <div class="rating-group">
-                                    <h4 class="rating-label">2nd Floor Rating</h4>
-                                    <div class="rating-stars mb-2">
-                                        <input type="hidden" name="second_floor_rating" value="0"/>
-                                        <t t-foreach="range(5, 0, -1)" t-as="star">
-                                            <input type="radio"
-                                                   t-att-id="'second_floor_star_' + str(star)"
-                                                   name="second_floor_rating"
-                                                   t-att-value="star"
-                                                    required="1"/>
-                                            <label t-att-for="'second_floor_star_' + str(star)"></label>
-                                        </t>
-                                    </div>
-                                    <div class="feedback-section">
-                                        <textarea name="second_floor_feedback" class="form-control" rows="2"
-                                                  placeholder="Your feedback about 2nd floor facilities..."></textarea>
-                                    </div>
-                                </div>
-
-                                <!-- 3rd Floor Rating -->
-                                <div class="rating-group">
-                                    <h4 class="rating-label">3rd Floor Rating</h4>
-                                    <div class="rating-stars mb-2">
-                                        <input type="hidden" name="third_floor_rating" value="0"/>
-                                        <t t-foreach="range(5, 0, -1)" t-as="star">
-                                            <input type="radio"
-                                                   t-att-id="'third_floor_star_' + str(star)"
-                                                   name="third_floor_rating"
-                                                   t-att-value="star"
-                                                    required="1"/>
-                                            <label t-att-for="'third_floor_star_' + str(star)"></label>
-                                        </t>
-                                    </div>
-                                    <div class="feedback-section">
-                                        <textarea name="third_floor_feedback" class="form-control" rows="2"
-                                                  placeholder="Your feedback about 3rd floor facilities..."></textarea>
-                                    </div>
-                                </div>
-
-                                <!-- 4th Floor Rating -->
-                                <div class="rating-group">
-                                    <h4 class="rating-label">4th Floor Rating</h4>
-                                    <div class="rating-stars mb-2">
-                                        <input type="hidden" name="fourth_floor_rating" value="0"/>
-                                        <t t-foreach="range(5, 0, -1)" t-as="star">
-                                            <input type="radio"
-                                                   t-att-id="'fourth_floor_star_' + str(star)"
-                                                   name="fourth_floor_rating"
-                                                   t-att-value="star"
-                                                    required="1"/>
-                                            <label t-att-for="'fourth_floor_star_' + str(star)"></label>
-                                        </t>
-                                    </div>
-                                    <div class="feedback-section">
-                                        <textarea name="forth_floor_feedback" class="form-control" rows="2"
-                                                  placeholder="Your feedback about 4th floor facilities..."></textarea>
-                                    </div>
-                                </div>
-
-                                <div class="action-buttons">
-                                    <button type="submit" class="btn btn-primary">
-                                        Submit All Ratings
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <script type="text/javascript">
-                document.addEventListener('DOMContentLoaded', function() {
-                // Initialize all ratings to 0 by default
-                document.querySelectorAll('input[type="hidden"][name$="_rating"]').forEach(hiddenInput => {
-                const ratingName = hiddenInput.name;
-                const defaultRadio = document.querySelector(`input[type="radio"][name="${ratingName}"][value="0"]`);
-                if (defaultRadio) {
-                defaultRadio.checked = true;
-                }
-                });
-
-                // When a star is clicked, update the hidden input
-                document.querySelectorAll('.rating-stars input[type="radio"]').forEach(radio => {
-                radio.addEventListener('change', function() {
-                const hiddenInput = this.closest('.rating-stars').querySelector('input[type="hidden"]');
-                if (hiddenInput) {
-                hiddenInput.value = this.value;
-                }
-                });
-                });
-                });
-            </script>
         </t>
     </template>
 

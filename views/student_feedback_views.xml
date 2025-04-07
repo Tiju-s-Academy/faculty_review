@@ -34,6 +34,17 @@
                                 </tree>
                             </field>
                         </page>
+                        <page string="Mentor Feedback">
+                            <group>
+                                <group>
+                                    <field name="mentor_id"/>
+                                </group>
+                                <group>
+                                    <field name="mentor_rating"/>
+                                    <field name="mentor_feedback"/>
+                                </group>
+                            </group>
+                        </page>
                         <page string="Institution Feedback">
                             <group>
                                 <group>
@@ -55,22 +66,7 @@
                                 </tree>
                             </field>
                         </page>
-                        <page string="Floor Cleanliness Feedback">
-                            <group>
-                                <group>
-                                    <field name="first_floor_rating"/>
-                                    <field name="second_floor_rating"/>
-                                    <field name="third_floor_rating"/>
-                                    <field name="fourth_floor_rating"/>
-                                </group>
-                                <group>
-                                    <field name="first_floor_feedback"/>
-                                    <field name="second_floor_feedback"/>
-                                    <field name="third_floor_feedback"/>
-                                    <field name="forth_floor_feedback"/>
-                                </group>
-                            </group>
-                        </page>
+
                     </notebook>
                 </sheet>
                 <div class="oe_chatter">

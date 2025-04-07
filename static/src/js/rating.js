@@ -6,7 +6,7 @@ function initTeacherSelection() {
         var card = e.currentTarget;
         var teacherId = card.getAttribute('data-teacher-id');
         console.log('Card clicked:', teacherId);
-        
+
         if (card.classList.contains('selected')) {
             card.classList.remove('selected');
             selectedTeachers = selectedTeachers.filter(id => id !== teacherId);
@@ -37,10 +37,10 @@ function initTeacherSelection() {
             var teacherCard = document.querySelector(`.teacher-card[data-teacher-id="${teacherId}"]`);
             var teacherName = teacherCard.querySelector('.teacher-name').textContent;
             ratingForm.querySelector('.teacher-name-display').textContent = teacherName;
-            
+
             // Update hidden teacher ID
             document.getElementById('teacher_id').value = teacherId;
-            
+
             // Show form
             ratingForm.style.display = 'block';
             window.scrollTo({
@@ -71,7 +71,7 @@ function initTeacherSelection() {
     // Add form submit handler
     document.querySelector('.rating-form form').addEventListener('submit', function(e) {
         e.preventDefault();
-        
+
         // Update hidden rating inputs before submission
         document.querySelectorAll('.rating-stars').forEach(group => {
             const checkedStar = group.querySelector('input[type="radio"]:checked');
@@ -83,7 +83,7 @@ function initTeacherSelection() {
         });
 
         var formData = new FormData(this);
-        
+
         fetch('/teacher_rating/submit', {
             method: 'POST',
             body: formData
@@ -120,7 +120,7 @@ let currentTeacherIndex = 0;
 
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM loaded, setting up star handlers');
-    
+
     document.querySelectorAll('.rating-stars input[type="radio"]').forEach(function(radio) {
         radio.addEventListener('change', function() {
             const hiddenInput = this.closest('.rating-stars').querySelector('input[type="hidden"]');
@@ -177,7 +177,7 @@ function showTeacherRatingForm(index) {
         return;
     }
     const teacherId = Array.from(selectedTeachers)[index];
-    document.getElementById('current-teacher-name').textContent = 
+    document.getElementById('current-teacher-name').textContent =
         document.querySelector(`.teacher-card[data-teacher-id="${teacherId}"]`).querySelector('.teacher-name').textContent;
     document.getElementById('teacher-rating-form').classList.remove('d-none');
     document.getElementById('current-teacher-id').value = teacherId;
@@ -188,10 +188,10 @@ function submitTeacherRating() {
     const formData = new FormData(document.getElementById('teacher-rating-form'));
     const ratings = {};
     formData.forEach((value, key) => { ratings[key] = value; });
-    
+
     if (!window.teacherRatings) window.teacherRatings = [];
     window.teacherRatings.push(ratings);
-    
+
     currentTeacherIndex++;
     showTeacherRatingForm(currentTeacherIndex);
 }
@@ -205,7 +205,7 @@ function submitFinalRating() {
     const instituteFormData = new FormData(document.getElementById('institute-rating-form'));
     const instituteRatings = {};
     instituteFormData.forEach((value, key) => { instituteRatings[key] = value; });
-    
+
     // Submit all ratings
     return fetch('/teacher_rating/submit_all', {
         method: 'POST',

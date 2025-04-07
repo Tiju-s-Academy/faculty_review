@@ -10,6 +10,18 @@ class StudentFeedback(models.Model):
     course = fields.Char(string='Course', required=True)
     batch = fields.Char(string='Batch', required=True)
     teacher_rating_ids = fields.One2many('teacher.rating', 'student_feedback_id', string='Teacher Ratings')
+
+    mentor_id = fields.Many2one('hr.employee', string='Mentor',
+        domain="[('department_id.is_academic', '=', True)]"
+    )
+    mentor_rating = fields.Selection(
+        selection=[(str(i), str(i)) for i in range(0, 11)],  # 0 to 10 stars
+        string="Rating",
+        default='0',
+        tracking=True
+    )
+    mentor_feedback = fields.Text(string='FeedBack')
+
     allocation_rating_ids = fields.One2many('allocation.rating','student_feedback_id',string='Allocation Rating')
 
     # Institute ratings
@@ -30,32 +42,4 @@ class StudentFeedback(models.Model):
     orientation_feedback = fields.Text(string='Orientation Feedback')
     mock_test_feedback = fields.Text(string='Mock Test Feedback')
 
-    first_floor_rating = fields.Selection(
-        selection=[(str(i), str(i)) for i in range(0, 6)],
-        string="1st Floor Rating",
-        default='0',
-        tracking=True
-    )
-    second_floor_rating = fields.Selection(
-        selection=[(str(i), str(i)) for i in range(0, 6)],
-        string="2nd Floor Rating",
-        default='0',
-        tracking=True
-    )
-    third_floor_rating = fields.Selection(
-        selection=[(str(i), str(i)) for i in range(0, 6)],
-        string="3rd Floor Rating",
-        default='0',
-        tracking=True
-    )
-    fourth_floor_rating = fields.Selection(
-        selection=[(str(i), str(i)) for i in range(0, 6)],
-        string="4th Floor Rating",
-        default='0',
-        tracking=True
-    )
 
-    first_floor_feedback = fields.Text(string='1st Floor Feedback')
-    second_floor_feedback = fields.Text(string='2nd Floor Feedback')
-    third_floor_feedback = fields.Text(string='3rd Floor Feedback')
-    forth_floor_feedback = fields.Text(string='4th Floor Feedback')

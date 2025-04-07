@@ -43,7 +43,36 @@ class TeacherRatingController(http.Controller):
         request.session['course'] = course
         request.session['batch'] = batch
         request.session['student_name'] = student_name
+        return request.redirect('/mentor_rating/form')
+
+    @http.route('/mentor_rating/form', type='http', auth='public', website=True)
+    def mentor_rating_form(self, **kwargs):
+        course = request.session.get('course', '').upper()
+
+        domain = [
+            ('department_id.is_academic', '=', True),
+        ]
+
+        # Add course filter if available
+        if course:
+            domain.append(('course_ids.name', '=', course))
+
+        mentors = request.env['hr.employee'].sudo().search(domain)
+
+        return request.render('faculty_review.mentor_rating_form', {
+            'mentors': mentors,
+            'default_course': course
+        })
+
+    @http.route('/mentor_rating/submit', type='http', auth='public', website=True)
+    def mentor_rating(self, **kwargs):
+        request.session['mentor_rating'] = {
+            'mentor_id': kwargs.get('mentor_id'),
+            'mentor_rating': kwargs.get('mentor_rating', '0'),
+            'mentor_feedback': kwargs.get('mentor_feedback', ''),
+        }
         return request.redirect('/institute_rating/form')
+
 
 
     @http.route('/institute_rating/form', type='http', auth='public', website=True)
@@ -82,36 +111,16 @@ class TeacherRatingController(http.Controller):
                 })
 
         request.session['allocation_ratings'] = allocation_ratings
-        return request.redirect('/floor_rating/form')
-
-    @http.route('/floor_rating/form', type='http', auth='public', website=True)
-    def floor_rating_form(self, **kwargs):
-        return request.render('faculty_review.floor_rating_form')
-
-    @http.route('/floor_rating/submit', type='http', auth='public', methods=['POST'], csrf=False)
-    def submit_floor_rating(self, **kwargs):
-        # Store floor rating data in session
-        request.session['floor_ratings'] = {
-            'first_floor_rating': kwargs.get('first_floor_rating', '0'),
-            'first_floor_feedback': kwargs.get('first_floor_feedback', ''),
-            'second_floor_rating': kwargs.get('second_floor_rating', '0'),
-            'second_floor_feedback': kwargs.get('second_floor_feedback', ''),
-            'third_floor_rating': kwargs.get('third_floor_rating', '0'),
-            'third_floor_feedback': kwargs.get('third_floor_feedback', ''),
-            'fourth_floor_rating': kwargs.get('fourth_floor_rating', '0'),
-            'forth_floor_feedback': kwargs.get('forth_floor_feedback', ''),
-        }
         return request.redirect('/teacher_rating/final_thanks')
-
 
     @http.route('/teacher_rating/final_thanks', type='http', auth='public', website=True)
     def final_thanks(self, **kwargs):
         teacher_ratings = request.session.get('teacher_ratings', [])
         institute_rating = request.session.get('institute_rating', {})
         allocation_rating = request.session.get('allocation_ratings',[])
-        floor_ratings = request.session.get('floor_ratings', {})
+        mentor_rating = request.session.get('mentor_rating', {})
 
-        if not teacher_ratings or not institute_rating or not allocation_rating or not floor_ratings:
+        if not teacher_ratings or not institute_rating or not allocation_rating or not mentor_rating:
             return request.redirect('/teacher_rating/form')
 
         feedback_record = request.env['student.feedback'].sudo().create({
@@ -122,23 +131,28 @@ class TeacherRatingController(http.Controller):
             'mock_test_rating': institute_rating.get('mock_test_rating', '0'),
             'orientation_feedback': institute_rating.get('orientation_feedback', ''),
             'mock_test_feedback': institute_rating.get('mock_test_feedback', ''),
-            'first_floor_rating': floor_ratings.get('first_floor_rating', '0'),
-            'second_floor_rating': floor_ratings.get('second_floor_rating', '0'),
-            'third_floor_rating': floor_ratings.get('third_floor_rating', '0'),
-            'fourth_floor_rating': floor_ratings.get('fourth_floor_rating', '0'),
-            'first_floor_feedback': floor_ratings.get('first_floor_feedback', ''),
-            'second_floor_feedback': floor_ratings.get('second_floor_feedback', ''),
-            'third_floor_feedback': floor_ratings.get('third_floor_feedback', ''),
-            'forth_floor_feedback': floor_ratings.get('forth_floor_feedback', ''),
+            'mentor_id': mentor_rating.get('mentor_id'),
+            'mentor_rating': mentor_rating.get('mentor_rating', '0'),
+            'mentor_feedback': mentor_rating.get('mentor_feedback', ''),
         })
 
         for rating in teacher_ratings:
             rating['student_feedback_id'] = feedback_record.id
             request.env['teacher.rating'].sudo().create(rating)
 
+            # Create allocation ratings
         for rating in allocation_rating:
             rating['student_feedback_id'] = feedback_record.id
             request.env['allocation.rating'].sudo().create(rating)
+
+            # Clear session data
+        request.session.pop('teacher_ratings', None)
+        request.session.pop('institute_rating', None)
+        request.session.pop('allocation_ratings', None)
+        request.session.pop('mentor_rating', None)
+        request.session.pop('student_name', None)
+        request.session.pop('course', None)
+        request.session.pop('batch', None)
 
         return request.render('faculty_review.final_thank_you_template')
 
