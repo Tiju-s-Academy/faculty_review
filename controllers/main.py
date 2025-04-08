@@ -43,7 +43,16 @@ class TeacherRatingController(http.Controller):
         request.session['course'] = course
         request.session['batch'] = batch
         request.session['student_name'] = student_name
-        return request.redirect('/mentor_rating/form')
+
+        if course == 'PTE':
+            request.session['mentor_rating'] = {
+                'mentor_id': False,
+                'mentor_rating': '0',
+            }
+            return request.redirect('/institute_rating/form')
+        else:
+            return request.redirect('/mentor_rating/form')
+
 
     @http.route('/mentor_rating/form', type='http', auth='public', website=True)
     def mentor_rating_form(self, **kwargs):
@@ -119,33 +128,41 @@ class TeacherRatingController(http.Controller):
         institute_rating = request.session.get('institute_rating', {})
         allocation_rating = request.session.get('allocation_ratings',[])
         mentor_rating = request.session.get('mentor_rating', {})
+        course = request.session.get('course', '')
 
-        if not teacher_ratings or not institute_rating or not allocation_rating or not mentor_rating:
+        if not teacher_ratings or not institute_rating or not allocation_rating:
             return request.redirect('/teacher_rating/form')
 
-        feedback_record = request.env['student.feedback'].sudo().create({
+        vals = {
             'name': request.session.get('student_name'),
-            'course': request.session.get('course'),
+            'course': course,
             'batch': request.session.get('batch'),
             'orientation_rating': institute_rating.get('orientation_rating', '0'),
             'mock_test_rating': institute_rating.get('mock_test_rating', '0'),
             'orientation_feedback': institute_rating.get('orientation_feedback', ''),
             'mock_test_feedback': institute_rating.get('mock_test_feedback', ''),
-            'mentor_id': mentor_rating.get('mentor_id'),
-            'mentor_rating': mentor_rating.get('mentor_rating', '0'),
-            'mentor_feedback': mentor_rating.get('mentor_feedback', ''),
-        })
+        }
 
+        if course != 'PTE':
+            vals.update({
+                'mentor_id': mentor_rating.get('mentor_id'),
+                'mentor_rating': mentor_rating.get('mentor_rating', '0'),
+                'mentor_feedback': mentor_rating.get('mentor_feedback', ''),
+            })
+
+        feedback_record = request.env['student.feedback'].sudo().create(vals)
+
+        # Create teacher ratings
         for rating in teacher_ratings:
             rating['student_feedback_id'] = feedback_record.id
             request.env['teacher.rating'].sudo().create(rating)
 
-            # Create allocation ratings
+        # Create allocation ratings
         for rating in allocation_rating:
             rating['student_feedback_id'] = feedback_record.id
             request.env['allocation.rating'].sudo().create(rating)
 
-            # Clear session data
+        # Clear session data
         request.session.pop('teacher_ratings', None)
         request.session.pop('institute_rating', None)
         request.session.pop('allocation_ratings', None)
