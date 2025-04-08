@@ -209,7 +209,7 @@
                                     <h4 class="rating-label">Orientation Program Rating</h4>
                                     <div class="rating-stars mb-2">
                                         <input type="hidden" name="orientation_rating" value="0"/>
-                                        <t t-foreach="range(5, 0, -1)" t-as="star">
+                                        <t t-foreach="range(10, 0, -1)" t-as="star">
                                             <input type="radio"
                                                    t-att-id="'orientation_star_' + str(star)"
                                                    name="orientation_rating"
@@ -230,7 +230,7 @@
                                     <h4 class="rating-label">Mock Test Rating</h4>
                                     <div class="rating-stars mb-2">
                                         <input type="hidden" name="mock_test_rating" value="0"/>
-                                        <t t-foreach="range(5, 0, -1)" t-as="star">
+                                        <t t-foreach="range(10, 0, -1)" t-as="star">
                                             <input type="radio"
                                                    t-att-id="'mocktest_star_' + str(star)"
                                                    name="mock_test_rating"

@@ -26,13 +26,13 @@ class StudentFeedback(models.Model):
 
     # Institute ratings
     orientation_rating = fields.Selection(
-        selection=[(str(i), str(i)) for i in range(0, 6)],
+        selection=[(str(i), str(i)) for i in range(0, 11)],
         string="Orientation rating Test Rating",
         default='0',
         tracking=True
     )
     mock_test_rating = fields.Selection(
-        selection=[(str(i), str(i)) for i in range(0, 6)],
+        selection=[(str(i), str(i)) for i in range(0, 11)],
         string="Mock Test Rating",
         default='0',
         tracking=True
