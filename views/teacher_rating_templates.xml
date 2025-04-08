@@ -141,7 +141,6 @@
                                             <div class="col-md-6">
                                                 <!-- Rating Stars -->
                                                 <div class="rating-stars mb-2">
-                                                    <input type="hidden" name="mentor_rating" value="0"/>
                                                     <t t-foreach="range(10, 0, -1)" t-as="star">
                                                         <input type="radio"
                                                                t-att-id="'mentor_star_' + str(star)"
