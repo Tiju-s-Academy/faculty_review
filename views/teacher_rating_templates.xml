@@ -30,7 +30,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label class="form-label" for="course">Course</label>
-                                        <select name="course" id="course" class="form-control" required="1">
+                                        <select name="course" id="course" class="form-control" required="1" readonly="1">
                                             <option value="">Select Course</option>
                                             <option t-att-selected="'selected' if default_course == 'IELTS' else None"
                                                     value="IELTS">IELTS
@@ -154,9 +154,9 @@
 
                                                 <!-- Feedback -->
                                                 <textarea name="mentor_feedback"
-                                                      class="form-control feedback-textarea"
-                                                      rows="2"
-                                                      placeholder="Your feedback about the mentor..."></textarea>
+                                                          class="form-control feedback-textarea"
+                                                          rows="2"
+                                                          placeholder="Your feedback about the mentor..."></textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -313,6 +313,110 @@
 
                             <div class="text-center mt-4">
                                 <button type="submit" class="btn btn-primary btn-lg px-5">Submit All Ratings</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="coworker_rating_form" name="Co Worker Rating Form">
+        <t t-call="website.layout">
+            <script type="text/javascript">
+                document.addEventListener('DOMContentLoaded', function() {
+                document.querySelectorAll('.remove-teacher').forEach(button => {
+                button.addEventListener('click', function() {
+                this.closest('.teacher-card').remove();
+                });
+                });
+                });
+            </script>
+            <div class="container py-5">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <h1 class="text-center mb-4">Rate Your Teachers</h1>
+                        <form action="/coworker_rating/submit" method="post" class="form-horizontal">
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+
+                            <!-- Student Information Section -->
+                            <div class="row mb-4">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label" for="employee_name">Your Name</label>
+                                        <input type="text" name="employee_name" id="employee_name" class="form-control"
+                                               t-att-value="env.user.employee_id.name" required="1" readonly="1"/>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label" for="course">Department</label>
+                                        <select name="course" id="course" class="form-control" required="1" readonly="1">
+                                            <option value="">Select Course</option>
+                                            <option t-att-selected="'selected' if default_course == 'IELTS' else None"
+                                                    value="IELTS">IELTS
+                                            </option>
+                                            <option t-att-selected="'selected' if default_course == 'OET' else None"
+                                                    value="OET">OET
+                                            </option>
+                                            <option t-att-selected="'selected' if default_course == 'PTE' else None"
+                                                    value="PTE">PTE
+                                            </option>
+                                            <option t-att-selected="'selected' if default_course == 'GERMAN' else None"
+                                                    value="GERMAN">GERMAN
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="rating-categories">
+                                <h4 class="mb-4">Rate Your Teachers</h4>
+                                <div class="row">
+                                    <t t-foreach="teachers" t-as="teacher">
+                                        <div class="col-md-12 mb-4 teacher-card position-relative border p-3 rounded shadow-sm">
+                                            <button type="button"
+                                                    class="btn btn-sm btn-outline-danger remove-teacher position-absolute top-0 end-0 m-2 rounded-circle d-flex align-items-center justify-content-center"
+                                                    style="width: 30px; height: 30px;">
+                                                <i class="fa fa-times"></i>
+                                            </button>
+                                            <div class="row">
+                                                <!-- Left side: Teacher Name -->
+                                                <div class="col-md-6 d-flex align-items-center">
+                                                    <h5 class="teacher-name m-0">
+                                                        <t t-esc="teacher.name"/>
+                                                    </h5>
+                                                </div>
+
+                                                <!-- Right side: Rating & Feedback in rows -->
+                                                <div class="col-md-6">
+                                                    <!-- Rating Stars -->
+                                                    <div class="rating-stars mb-2">
+                                                        <input type="hidden" t-att-name="'rating_' + str(teacher.id)"
+                                                               value="0"/>
+                                                        <t t-foreach="range(10, 0, -1)" t-as="star">
+                                                            <input type="radio"
+                                                                   t-att-id="'star_' + str(teacher.id) + '_' + str(star)"
+                                                                   t-att-name="'stars_' + str(teacher.id)"
+                                                                   t-att-value="star"
+                                                                   required="1"/>
+                                                            <label t-att-for="'star_' + str(teacher.id) + '_' + str(star)"></label>
+                                                        </t>
+                                                    </div>
+
+                                                    <!-- Feedback -->
+                                                    <textarea t-att-name="'feedback_' + str(teacher.id)"
+                                                              class="form-control feedback-textarea"
+                                                              rows="2" placeholder="Your feedback..."></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </t>
+                                </div>
+                            </div>
+
+                            <div class="text-center mt-4">
+                                <button type="submit" class="btn btn-primary btn-lg px-5">Submit</button>
                             </div>
                         </form>
                     </div>

@@ -17,3 +17,4 @@ class TeacherRating(models.Model):
     )
     teacher_feedback = fields.Text(string='FeedBack')
     student_feedback_id = fields.Many2one('student.feedback', string='Student')
+    co_worker_feedback_id = fields.Many2one('coworker.rating',string='Co Worker')

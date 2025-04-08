@@ -23,6 +23,7 @@
         'views/teacher_rating_views.xml',
         'views/teacher_rating_templates.xml',
         'views/student_feedback_views.xml',
+        'views/coworker_rating_views.xml',
         'views/teacher_rating_menu.xml',
     ],
     'assets': {

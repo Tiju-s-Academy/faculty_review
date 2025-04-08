@@ -17,3 +17,7 @@ access_allocation_rating_public,allocation.rating.public,model_allocation_rating
 
 access_student_course_admin,student.course.admin,model_student_course,hr.group_hr_manager,1,1,1,1
 access_student_course_manager,student.course.manger,model_student_course,hr.group_hr_user,1,1,1,1
+
+access_coworker_rating_user,coworker.rating.user,model_coworker_rating,group_teacher_rating_user,1,1,1,1
+access_coworker_rating_admin,coworker.rating.admin,model_coworker_rating,group_teacher_rating_admin,1,1,1,1
+access_coworker_rating_public,coworker.rating.public,model_coworker_rating,base.group_public,1,1,1,0

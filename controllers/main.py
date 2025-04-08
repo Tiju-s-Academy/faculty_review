@@ -156,4 +156,55 @@ class TeacherRatingController(http.Controller):
 
         return request.render('faculty_review.final_thank_you_template')
 
+    # ----------------- CO Worker rating -----------
+    @http.route('/coworker_rating/form', type='http', auth="user", website=True)
+    def coworker_rating_form(self, **kwargs):
+        employee = request.env.user.employee_id
+        if not employee:
+            return request.redirect('/web/login')
+        # Get current employee's coworkers (same department excluding self)
+        course = kwargs.get('course', '').upper()
+        valid_courses = ['IELTS', 'OET', 'PTE', 'GERMAN']
+        if course and course not in valid_courses:
+            course = ''
+
+        domain = [
+            ('department_id.is_academic', '=', True),
+            ('id', '!=', employee.id)  # Exclude current employee
+        ]
+        if course:
+            domain.append(('course_ids.name', '=', course))
+
+        teachers = request.env['hr.employee'].sudo().search(domain)
+
+        return request.render('faculty_review.coworker_rating_form', {
+            'teachers': teachers,
+            'default_course': course
+        })
+
+    @http.route('/coworker_rating/submit', type='http', auth="user", methods=['POST'], website=True, csrf=False)
+    def submit_coworker_rating(self, **post):
+        employee = request.env.user.employee_id
+        print(employee)
+        # Create coworker rating record
+        rating = request.env['coworker.rating'].sudo().create({
+            'rater_id': employee.id,
+            'course': post.get('course'),
+        })
+
+        for key, value in post.items():
+            if key.startswith('rating_'):
+                coworker_id = int(key.split('_')[1])
+                feedback = post.get(f'feedback_{coworker_id}', '')
+                request.env['teacher.rating'].sudo().create({
+                    'co_worker_feedback_id': rating.id,
+                    'teacher_id': coworker_id,
+                    'teacher_rating': value,
+                    'teacher_feedback': feedback,
+                })
+        return request.redirect('/coworker_rating/thanks')
+
+    @http.route('/coworker_rating/thanks', type='http', auth="user", website=True)
+    def rating_thanks(self, **kwargs):
+        return request.render('faculty_review.final_thank_you_template')
 
