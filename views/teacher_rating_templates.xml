@@ -30,7 +30,8 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label class="form-label" for="course">Course</label>
-                                        <select name="course" id="course" class="form-control" required="1" readonly="1">
+                                        <select name="course" id="course" class="form-control" required="1"
+                                                readonly="1">
                                             <option value="">Select Course</option>
                                             <option t-att-selected="'selected' if default_course == 'IELTS' else None"
                                                     value="IELTS">IELTS
@@ -246,9 +247,16 @@
                                     </div>
                                 </div>
 
-                                <div class="text-center mt-4">
-                                    <button type="submit" class="btn btn-primary btn-lg px-5">Next</button>
-                                </div>
+                                <t t-if="default_course != 'OET'">
+                                    <div class="text-center mt-4">
+                                        <button type="submit" class="btn btn-success btn-lg px-5">All Submit</button>
+                                    </div>
+                                </t>
+                                <t t-else="">
+                                    <div class="text-center mt-4">
+                                        <button type="submit" class="btn btn-primary btn-lg px-5">Next</button>
+                                    </div>
+                                </t>
                             </form>
                         </div>
                     </div>
@@ -350,7 +358,8 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label class="form-label" for="course">Department</label>
-                                        <select name="course" id="course" class="form-control" required="1" readonly="1">
+                                        <select name="course" id="course" class="form-control" required="1"
+                                                readonly="1">
                                             <option value="">Select Course</option>
                                             <option t-att-selected="'selected' if default_course == 'IELTS' else None"
                                                     value="IELTS">IELTS

@@ -86,7 +86,10 @@ class TeacherRatingController(http.Controller):
 
     @http.route('/institute_rating/form', type='http', auth='public', website=True)
     def institute_rating_form(self, **kwargs):
-        return request.render('faculty_review.institute_rating_form')
+        course = request.session.get('course', '').upper()
+        return request.render('faculty_review.institute_rating_form', {
+            'default_course': course
+        })
 
     @http.route('/institute_rating/submit', type='http', auth='public', methods=['POST'], csrf=False)
     def submit_institute_rating(self, **kwargs):
@@ -100,24 +103,36 @@ class TeacherRatingController(http.Controller):
 
     @http.route('/allocation_rating/form', type='http', auth='public', website=True)
     def allocation_rating_form(self, **kwargs):
+        course = request.session.get('course', '').upper()
+
+        # Only show allocation rating for OET course
+        if course != 'OET':
+            request.session['allocation_ratings'] = []  # Empty allocation ratings for non-OET
+            return request.redirect('/teacher_rating/final_thanks')
+
         allocation_teacher = request.env['hr.employee'].sudo().search([('name', '=', 'Deepthy Mohandas')])
-        return request.render('faculty_review.allocation_rating_form',{'allocation_teacher': allocation_teacher})
+        return request.render('faculty_review.allocation_rating_form', {
+            'allocation_teacher': allocation_teacher,
+            'course': course
+        })
 
     @http.route('/allocation_rating/submit', type='http', auth='public', methods=['POST'], csrf=False)
     def allocation_submit_rating(self, **kwargs):
-
+        course = request.session.get('course', '').upper()
         allocation_ratings = []
 
-        for key, value in kwargs.items():
-            if key.startswith('stars_'):
-                teacher_id = int(key.split('_')[1])
-                rating = value
-                feedback = kwargs.get(f'feedback_{teacher_id}', '')
-                allocation_ratings.append({
-                    'allocation_teacher_id': teacher_id,
-                    'teacher_rating': rating,
-                    'teacher_feedback': feedback,
-                })
+        # Only process allocation ratings for OET course
+        if course == 'OET':
+            for key, value in kwargs.items():
+                if key.startswith('stars_'):
+                    teacher_id = int(key.split('_')[1])
+                    rating = value
+                    feedback = kwargs.get(f'feedback_{teacher_id}', '')
+                    allocation_ratings.append({
+                        'allocation_teacher_id': teacher_id,
+                        'teacher_rating': rating,
+                        'teacher_feedback': feedback,
+                    })
 
         request.session['allocation_ratings'] = allocation_ratings
         return request.redirect('/teacher_rating/final_thanks')
@@ -130,7 +145,7 @@ class TeacherRatingController(http.Controller):
         mentor_rating = request.session.get('mentor_rating', {})
         course = request.session.get('course', '')
 
-        if not teacher_ratings or not institute_rating or not allocation_rating:
+        if not teacher_ratings or not institute_rating:
             return request.redirect('/teacher_rating/form')
 
         vals = {
@@ -157,10 +172,11 @@ class TeacherRatingController(http.Controller):
             rating['student_feedback_id'] = feedback_record.id
             request.env['teacher.rating'].sudo().create(rating)
 
-        # Create allocation ratings
-        for rating in allocation_rating:
-            rating['student_feedback_id'] = feedback_record.id
-            request.env['allocation.rating'].sudo().create(rating)
+        # Create allocation ratings only for OET course
+        if course == 'OET':
+            for rating in allocation_rating:
+                rating['student_feedback_id'] = feedback_record.id
+                request.env['allocation.rating'].sudo().create(rating)
 
         # Clear session data
         request.session.pop('teacher_ratings', None)
