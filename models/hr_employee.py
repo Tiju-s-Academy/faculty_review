@@ -1,4 +1,4 @@
-from odoo import models, fields
+from odoo import api,models, fields
 
 class HrEmployee(models.Model):
     _inherit = 'hr.employee'
@@ -13,9 +13,6 @@ class HrEmployee(models.Model):
         string='Courses Taught',
         help="Courses this teacher is associated with"
     )
-
-    # Add any necessary fields or methods here
-    pass
 
 
 class StudentCourse(models.Model):

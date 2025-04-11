@@ -21,3 +21,6 @@ access_student_course_manager,student.course.manger,model_student_course,hr.grou
 access_coworker_rating_user,coworker.rating.user,model_coworker_rating,group_teacher_rating_user,1,1,1,1
 access_coworker_rating_admin,coworker.rating.admin,model_coworker_rating,group_teacher_rating_admin,1,1,1,1
 access_coworker_rating_public,coworker.rating.public,model_coworker_rating,base.group_public,1,1,1,0
+
+access_teacher_rating_dashboard_admin,teacher.rating.dashboard.admin,model_teacher_rating_dashboard,group_teacher_rating_admin,1,1,1,1
+access_mentor_rating_dashboard_admin,mentor.rating.dashboard.admin,model_mentor_rating_dashboard,group_teacher_rating_admin,1,1,1,1

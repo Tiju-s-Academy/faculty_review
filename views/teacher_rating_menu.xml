@@ -1,8 +1,40 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
-    <menuitem id="menu_teacher_rating_root" name="Teacher Rating" sequence="90" web_icon="faculty_review,static/description/icon.png"/>
-    <menuitem id="menu_teacher_rating" name="Ratings" parent="menu_teacher_rating_root"
-              action="action_student_feedback"/>
-    <menuitem id="menu_coworker_rating" name="Co Worker" parent="menu_teacher_rating_root"
-              action="action_coworker_rating"/>
+    <!-- Main Faculty Rating Menu -->
+    <menuitem id="menu_teacher_rating_root" name="Faculty Rating" sequence="90"
+              web_icon="faculty_review,static/description/icon.png"/>
+
+    <!-- Dashboard Submenu -->
+    <menuitem id="menu_dashboard_root"
+              name="Dashboard"
+              parent="menu_teacher_rating_root"
+              sequence="1"/>
+
+    <!-- Faculty Rating Dashboard (under Dashboard submenu) -->
+    <menuitem id="menu_teacher_rating_dashboard"
+              name="Faculty Dashboard"
+              parent="menu_dashboard_root"
+              action="action_teacher_rating_dashboard"
+              sequence="1"/>
+
+    <!-- Mentor Rating Dashboard (under Dashboard submenu) -->
+    <menuitem id="menu_mentor_rating_dashboard"
+              name="Mentor Dashboard"
+              parent="menu_dashboard_root"
+              action="action_mentor_rating_dashboard"
+              sequence="2"/>
+
+    <!-- Co Worker Menu (directly under root) -->
+    <menuitem id="menu_coworker_rating"
+              name="Co Worker"
+              parent="menu_teacher_rating_root"
+              action="action_coworker_rating"
+              sequence="4"/>
+
+    <!-- Ratings Menu (directly under root) -->
+    <menuitem id="menu_teacher_rating"
+              name="Ratings"
+              parent="menu_teacher_rating_root"
+              action="action_student_feedback"
+              sequence="3"/>
 </odoo>

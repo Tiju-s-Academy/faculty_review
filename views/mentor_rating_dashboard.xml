@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_mentor_rating_dashboard_kanban" model="ir.ui.view">
+        <field name="name">mentor.rating.dashboard.kanban</field>
+        <field name="model">mentor.rating.dashboard</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="course_id" create="false" records_draggable="false">
+                <field name="mentor_id"/>
+                <field name="course_id"/>
+                <field name="rating_10"/>
+                <field name="rating_9"/>
+                <field name="rating_8"/>
+                <field name="rating_7"/>
+                <field name="rating_6"/>
+                <field name="rating_5"/>
+                <field name="rating_4"/>
+                <field name="rating_3"/>
+                <field name="rating_2"/>
+                <field name="rating_1"/>
+                <field name="rating_0"/>
+                <field name="total_ratings"/>
+                <field name="average_rating"/>
+
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <div class="o_kanban_card_header">
+                                <div class="o_kanban_card_header_title">
+                                    <h4>
+                                        <field name="mentor_id" widget="many2one_avatar"/>
+                                    </h4>
+                                    <div>
+                                        <field name="course_id" widget="many2one_badge"/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="o_kanban_card_content">
+                                <div class="rating-summary">
+                                    <div class="average-rating">
+                                        <span>Average:</span>
+                                        <span t-esc="record.average_rating.value"/>
+                                        <span>/10</span>
+                                    </div>
+                                    <div class="total-ratings">
+                                        <span>Total:</span>
+                                        <span t-esc="record.total_ratings.value"/>
+                                    </div>
+                                </div>
+
+                                <div class="rating-distribution">
+                                    <!-- Rating bars same as teacher dashboard -->
+                                    <!-- 10 Stars -->
+                                    <div class="rating-bar">
+                                        <span>10★</span>
+                                        <div class="progress">
+                                            <div t-attf-class="progress-bar bg-success"
+                                                 t-attf-style="width: #{record.rating_10.value / (record.total_ratings.value or 1) * 100}%">
+                                                <span t-esc="record.rating_10.value"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="rating-bar">
+                                        <span>9★</span>
+                                        <div class="progress">
+                                            <div t-attf-class="progress-bar bg-success"
+                                                 t-attf-style="width: #{record.rating_9.value / (record.total_ratings.value or 1) * 100}%">
+                                                <span t-esc="record.rating_9.value"/>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 8 Stars -->
+                                    <div class="rating-bar">
+                                        <span>8★</span>
+                                        <div class="progress">
+                                            <div t-attf-class="progress-bar bg-success"
+                                                 t-attf-style="width: #{record.rating_8.value / (record.total_ratings.value or 1) * 100}%">
+                                                <span t-esc="record.rating_8.value"/>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 7 Stars -->
+                                    <div class="rating-bar">
+                                        <span>7★</span>
+                                        <div class="progress">
+                                            <div t-attf-class="progress-bar bg-warning"
+                                                 t-attf-style="width: #{record.rating_7.value / (record.total_ratings.value or 1) * 100}%">
+                                                <span t-esc="record.rating_7.value"/>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 6 Stars -->
+                                    <div class="rating-bar">
+                                        <span>6★</span>
+                                        <div class="progress">
+                                            <div t-attf-class="progress-bar bg-warning"
+                                                 t-attf-style="width: #{record.rating_6.value / (record.total_ratings.value or 1) * 100}%">
+                                                <span t-esc="record.rating_6.value"/>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 5 Stars -->
+                                    <div class="rating-bar">
+                                        <span>5★</span>
+                                        <div class="progress">
+                                            <div t-attf-class="progress-bar bg-warning"
+                                                 t-attf-style="width: #{record.rating_5.value / (record.total_ratings.value or 1) * 100}%">
+                                                <span t-esc="record.rating_5.value"/>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 4 Stars -->
+                                    <div class="rating-bar">
+                                        <span>4★</span>
+                                        <div class="progress">
+                                            <div t-attf-class="progress-bar bg-danger"
+                                                 t-attf-style="width: #{record.rating_4.value / (record.total_ratings.value or 1) * 100}%">
+                                                <span t-esc="record.rating_4.value"/>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 3 Stars -->
+                                    <div class="rating-bar">
+                                        <span>3★</span>
+                                        <div class="progress">
+                                            <div t-attf-class="progress-bar bg-danger"
+                                                 t-attf-style="width: #{record.rating_3.value / (record.total_ratings.value or 1) * 100}%">
+                                                <span t-esc="record.rating_3.value"/>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 2 Stars -->
+                                    <div class="rating-bar">
+                                        <span>2★</span>
+                                        <div class="progress">
+                                            <div t-attf-class="progress-bar bg-danger"
+                                                 t-attf-style="width: #{record.rating_2.value / (record.total_ratings.value or 1) * 100}%">
+                                                <span t-esc="record.rating_2.value"/>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 1 Star -->
+                                    <div class="rating-bar">
+                                        <span>1★</span>
+                                        <div class="progress">
+                                            <div t-attf-class="progress-bar bg-danger"
+                                                 t-attf-style="width: #{record.rating_1.value / (record.total_ratings.value or 1) * 100}%">
+                                                <span t-esc="record.rating_1.value"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Repeat for 9-0 stars -->
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="action_mentor_rating_dashboard" model="ir.actions.act_window">
+        <field name="name">Mentor Rating Dashboard</field>
+        <field name="res_model">mentor.rating.dashboard</field>
+        <field name="view_mode">kanban</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Mentor rating dashboard shows aggregated feedback data
+            </p>
+        </field>
+    </record>
+</odoo>

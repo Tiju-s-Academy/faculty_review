@@ -118,123 +118,6 @@
         justify-content: center;
     }
 }
-
-.teacher-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 1rem;
-    margin-bottom: 2rem;
-}
-
-.teacher-card {
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 1rem;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    background: #fff;
-    user-select: none;
-    cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.teacher-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-}
-
-.teacher-card:active {
-    transform: translateY(-2px);
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-}
-
-.teacher-card.selected {
-    border-color: #0d6efd;
-    background-color: #f8f9ff;
-    box-shadow: 0 4px 12px rgba(13, 110, 253, 0.1);
-    border: 2px solid #0d6efd;
-    background-color: #f8f9ff;
-}
-
-.teacher-card.rated {
-    opacity: 0.7;
-    position: relative;
-}
-
-.teacher-card.rated::after {
-    content: "✓ Rated";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: rgba(0,0,0,0.7);
-    color: white;
-    padding: 5px 10px;
-    border-radius: 4px;
-}
-
-.teacher-card.rated::after {
-    content: "✓";
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: #28a745;
-    color: white;
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-}
-
-.institute-card {
-    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
-    color: white;
-}
-
-.institute-card .teacher-image {
-    border: 3px solid rgba(255,255,255,0.3);
-}
-
-.institute-card.rated::after {
-    background: #ffc107;
-}
-
-.teacher-image {
-    width: 128px;
-    height: 128px;
-    border-radius: 50%;
-    margin: 0 auto 1rem;
-    object-fit: cover;
-    border: 2px solid #eee;
-}
-
-.rating-form {
-    display: none;
-}
-
-.rating-form.active {
-    display: block;
-}
-
-.rating-form.hidden {
-    display: none;
-}
-
-.rating-form.visible {
-    display: block;
-}
-
-.action-buttons {
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-    margin-top: 2rem;
-}
-
 .institute-rating-container {
     max-height: calc(100vh - 100px);
     overflow-y: auto;
@@ -259,29 +142,6 @@
 .institute-rating-container .card {
     margin-bottom: 2rem;
 }
-
-.institute-rating-form {
-    height: auto;
-    min-height: 100%;
-}
-
-.module-rating {
-    background: #f8f9fa;
-    padding: 1.5rem;
-    border-radius: 8px;
-    margin-bottom: 1rem;
-    height: auto;
-    overflow: visible;
-}
-
-.module-rating select {
-    margin-bottom: 1rem;
-}
-
-.module-rating .rating-stars {
-    margin-top: 0.5rem;
-}
-
 .container.py-5 {
     max-height: calc(100vh - 100px);
     overflow-y: auto;
@@ -306,4 +166,31 @@
 .container.py-5 .card.shadow {
     margin-bottom: 2rem;
 }
-z
+/* Collapsible ratings section */
+.collapsible-ratings.collapsed {
+    display: none;
+}
+
+.collapsible-ratings.expanded {
+    display: block;
+}
+
+/* See More button styling */
+.see-more-btn {
+    color: #007bff;
+    text-decoration: none;
+    font-size: 0.9em;
+    cursor: pointer;
+}
+
+.see-more-btn:hover {
+    text-decoration: underline;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.mt-2 {
+    margin-top: 0.5rem;
+}

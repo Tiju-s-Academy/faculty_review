@@ -20,6 +20,8 @@
         'security/ir.model.access.csv',
         'views/hr_department_views.xml',
         'views/hr_employee_views.xml',
+        'views/teacher_rating_dashboard.xml',
+        'views/mentor_rating_dashboard.xml',
         'views/teacher_rating_views.xml',
         'views/teacher_rating_templates.xml',
         'views/student_feedback_views.xml',
