@@ -4,7 +4,7 @@
         <field name="name">mentor.rating.dashboard.kanban</field>
         <field name="model">mentor.rating.dashboard</field>
         <field name="arch" type="xml">
-            <kanban default_group_by="course_id" create="false" records_draggable="false">
+            <kanban default_group_by="course_id" create="false" default_order="average_rating desc" records_draggable="false">
                 <field name="mentor_id"/>
                 <field name="course_id"/>
                 <field name="rating_10"/>
